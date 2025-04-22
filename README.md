@@ -92,4 +92,4 @@ Este proyecto consiste en un juego de memoria implementado completamente en **Re
 
 ---
 
-**¡Gracias por revisar este proyecto y que disfrutes jugando! 🧠🃏**
+**¡Gracias por revisar este proyecto y que disfrute jugando! 🧠🃏**
