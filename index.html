@@ -6,10 +6,9 @@
   <title>Juego de Memoria Mejorado</title>
   <style>
     /* 1. Box‑sizing global */
-    *,
-    *::before,
-    *::after {
+    *, *::before, *::after {
       box-sizing: border-box;
+      margin: 0; padding: 0;
     }
 
     :root {
@@ -30,7 +29,6 @@
     /* Animación del fondo */
     body {
       min-height: 100vh;
-      margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: var(--bg-gradient);
       background-size: 400% 400%;
@@ -42,8 +40,8 @@
       padding: 20px;
     }
     @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
@@ -62,9 +60,7 @@
       max-width: 480px;
       margin-bottom: 20px;
     }
-    .info div {
-      font-size: 1.2rem;
-    }
+    .info div { font-size: 1.2rem; }
     .info button {
       padding: 8px 16px;
       font-size: 1rem;
@@ -80,30 +76,23 @@
       background: #cf711f;
     }
 
-    /* 2. Ajustes al contenedor .board */
+    /* Tablero */
     .board {
       display: grid;
       grid-template-columns: repeat(4, 100px);
       grid-auto-rows: 100px;
       gap: 12px;
-
       background: #fff;
       box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-
-      /* Padding aumentado y esquinas más redondas */
       padding: 24px;
       border-radius: 16px;
-
-      /* Ajuste de ancho al contenido y centrado */
       width: max-content;
-      margin: 0 auto;
-
-      /* Evita que las cartas sobresalgan */
+      margin: 0 auto 30px;
       overflow: hidden;
     }
 
+    /* Cartas */
     .card {
-      position: relative;
       perspective: 600px;
       cursor: pointer;
       transition: transform 0.2s ease;
@@ -112,17 +101,15 @@
       transform: scale(1.05);
     }
     .card-inner {
-      position: absolute;
-      inset: 0;
+      position: relative;
+      width: 100%; height: 100%;
       transform-style: preserve-3d;
       transition: transform 0.6s cubic-bezier(0.4,0.2,0.2,1);
     }
     .card.flipped .card-inner {
       transform: rotateY(180deg);
     }
-
-    .card-front,
-    .card-back {
+    .card-front, .card-back {
       position: absolute;
       inset: 0;
       border-radius: 8px;
@@ -143,16 +130,38 @@
       color: #333;
     }
 
+    /* Mensaje de completado */
     .completed {
-      margin-top: 20px;
+      margin: 20px 0 40px; /* espacio extra inferior */
       font-size: 1.5rem;
       color: var(--matched-color);
       text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
       animation: fadeIn 1s ease-in-out;
+      text-align: center;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-10px); }
       to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 3. Cuadro de créditos (DEBAJO DEL TABLERO) */
+    .credits {
+      background: #fff;
+      color: #333;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+      max-width: 480px;
+      text-align: center;
+      font-size: 1rem;
+      margin: 0 auto 20px; /* centrado y espacio superior cero */
+    }
+    .credits a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+    .credits a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -160,7 +169,7 @@
   <h1>Juego de Memoria</h1>
   <div id="root"></div>
 
-  <!-- Librerías externas -->
+  <!-- Librerías -->
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
@@ -172,18 +181,17 @@
     const CARD_VALUES = ['🍎','🍌','🍇','🍓','🍒','🍍','🥝','🍑'];
 
     function MemoryGame() {
-      const [cards,    setCards]    = useState([]);
-      const [flipped,  setFlipped]  = useState([]);
-      const [matched,  setMatched]  = useState(new Set());
-      const [moves,    setMoves]    = useState(0);
-      const [timer,    setTimer]    = useState(0);
-      const [active,   setActive]   = useState(false);
+      const [cards, setCards] = useState([]);
+      const [flipped, setFlipped] = useState([]);
+      const [matched, setMatched] = useState(new Set());
+      const [moves, setMoves] = useState(0);
+      const [timer, setTimer] = useState(0);
+      const [active, setActive] = useState(false);
       const [finished, setFinished] = useState(false);
 
       const initGame = () => {
         const deck = _.shuffle(
-          CARD_VALUES.flatMap(v => [v,v])
-            .map((value,id) => ({ id, value }))
+          CARD_VALUES.flatMap(v => [v,v]).map((value,id) => ({ id, value }))
         );
         setCards(deck);
         setFlipped([]);
@@ -227,8 +235,7 @@
       }, [matched]);
 
       const formatTime = sec => {
-        const m = Math.floor(sec / 60),
-              s = sec % 60;
+        const m = Math.floor(sec/60), s = sec%60;
         return `${m}:${s < 10 ? '0'+s : s}`;
       };
 
@@ -278,5 +285,11 @@
 
     ReactDOM.render(<MemoryGame />, document.getElementById('root'));
   </script>
+
+  <!-- CUADRO DE CRÉDITOS -->
+  <div class="credits">
+    <p>Repositorio: <a href="https://github.com/DanielBarillasM/DanielBarillasM.github.io.git" target="_blank">github.com/DanielBarillasM/DanielBarillasM.github.io</a></p>
+    <p>Pablo Daniel Barillas Moreno, Carné No. 22193</p>
+  </div>
 </body>
 </html>
