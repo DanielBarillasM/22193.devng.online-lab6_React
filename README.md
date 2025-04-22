@@ -63,7 +63,7 @@ Este proyecto consiste en un juego de memoria implementado completamente en **Re
 
 1. El juego está disponible en:
    ```
-   
+   https://danielbarillasm.github.io/
    ```
 
 ## 🧾 Criterios de Evaluación
@@ -93,4 +93,3 @@ Este proyecto consiste en un juego de memoria implementado completamente en **Re
 ---
 
 **¡Gracias por revisar este proyecto y que disfrutes jugando! 🧠🃏**
-```
