@@ -66,6 +66,19 @@ Este proyecto consiste en un juego de memoria implementado completamente en **Re
    https://danielbarillasm.github.io/
    ```
 
+---
+
+## 🌐 Publicación del Juego Online en el server
+
+### Server: devng.online
+
+1. El juego está disponible también en:
+   ```
+   https://22193.devng.online/lab6/
+   ```
+
+---
+
 ## 🧾 Criterios de Evaluación
 
 | Criterio                                                                 | Puntos |
