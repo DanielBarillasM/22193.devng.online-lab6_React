@@ -41,7 +41,7 @@ Este proyecto consiste en un juego de memoria implementado completamente en **Re
 
 ### A. Usando Python (servidor HTTP local)
 
-1. Asegúrase de tener **Python instalado** (versión 3).
+1. Asegúrese de tener **Python instalado** (versión 3).
 2. Abra la terminal en la carpeta donde esta el `index.html`:
    ```bash
    cd /ruta/al/proyecto
@@ -65,6 +65,19 @@ Este proyecto consiste en un juego de memoria implementado completamente en **Re
    ```
    https://danielbarillasm.github.io/
    ```
+
+---
+
+## 🌐 Publicación del Juego Online en el server
+
+### Server: devng.online
+
+1. El juego está disponible también en:
+   ```
+   https://22193.devng.online/lab6/
+   ```
+
+---
 
 ## 🧾 Criterios de Evaluación
 
@@ -92,4 +105,4 @@ Este proyecto consiste en un juego de memoria implementado completamente en **Re
 
 ---
 
-**¡Gracias por revisar este proyecto y que disfrutes jugando! 🧠🃏**
+**¡Gracias por revisar este proyecto y que disfrute jugando! 🧠🃏**
