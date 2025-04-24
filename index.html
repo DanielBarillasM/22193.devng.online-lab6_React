@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Juego de Memoria Mejorado</title>
   <style>
-    /* 1. Box‑sizing global */
+    /* 1. Box-sizing global */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0; padding: 0;
@@ -132,7 +132,7 @@
 
     /* Mensaje de completado */
     .completed {
-      margin: 20px 0 40px; /* espacio extra inferior */
+      margin: 20px 0 40px;
       font-size: 1.5rem;
       color: var(--matched-color);
       text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
@@ -144,7 +144,7 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* 3. Cuadro de créditos (DEBAJO DEL TABLERO) */
+    /* Cuadro de créditos */
     .credits {
       background: #fff;
       color: #333;
@@ -154,7 +154,7 @@
       max-width: 480px;
       text-align: center;
       font-size: 1rem;
-      margin: 0 auto 20px; /* centrado y espacio superior cero */
+      margin: 0 auto 20px;
     }
     .credits a {
       color: var(--accent-color);
@@ -188,10 +188,11 @@
       const [timer, setTimer] = useState(0);
       const [active, setActive] = useState(false);
       const [finished, setFinished] = useState(false);
+      const [preview, setPreview] = useState(true);
 
       const initGame = () => {
         const deck = _.shuffle(
-          CARD_VALUES.flatMap(v => [v,v]).map((value,id) => ({ id, value }))
+          CARD_VALUES.flatMap(v => [v, v]).map((value, id) => ({ id, value }))
         );
         setCards(deck);
         setFlipped([]);
@@ -199,7 +200,13 @@
         setMoves(0);
         setTimer(0);
         setFinished(false);
-        setActive(true);
+        setPreview(true);
+        setActive(false);
+        // muestra todas las cartas por 3 segundos
+        setTimeout(() => {
+          setPreview(false);
+          setActive(true);
+        }, 3000);
       };
 
       useEffect(initGame, []);
@@ -223,7 +230,7 @@
         } else {
           setTimeout(() => setFlipped([]), 1000);
         }
-      }, [flipped]);
+      }, [flipped, cards]);
 
       // Detectar final
       useEffect(() => {
@@ -240,11 +247,10 @@
       };
 
       const handleClick = idx => {
-        if (!active) return;
-        if (
-          flipped.length < 2 &&
-          !flipped.includes(idx) &&
-          !matched.has(cards[idx].value)
+        if (!active || preview) return;
+        if (flipped.length < 2 &&
+            !flipped.includes(idx) &&
+            !matched.has(cards[idx].value)
         ) {
           setFlipped(f => [...f, idx]);
         }
@@ -259,7 +265,9 @@
           </div>
           <div className="board">
             {cards.map((card, idx) => {
-              const isFlipped = flipped.includes(idx) || matched.has(card.value);
+              const isFlipped = preview
+                || flipped.includes(idx)
+                || matched.has(card.value);
               return (
                 <div
                   key={card.id}
@@ -286,10 +294,14 @@
     ReactDOM.render(<MemoryGame />, document.getElementById('root'));
   </script>
 
-  <!-- CUADRO DE CRÉDITOS -->
+  <!-- Créditos -->
   <div class="credits">
-    <p>Repositorio: <a href="https://github.com/DanielBarillasM/DanielBarillasM.github.io.git" target="_blank">github.com/DanielBarillasM/DanielBarillasM.github.io</a></p>
-    <p>Pablo Daniel Barillas Moreno, Carné No. 22193</p>
+    <p>Repositorio: 
+      <a href="https://github.com/DanielBarillasM/DanielBarillasM.github.io.git" target="_blank">
+        github.com/DanielBarillasM/DanielBarillasM.github.io
+      </a>
+    </p>
+    <p>Pablo Daniel Barillas Moreno, Carné No. 22193</p>
   </div>
 </body>
 </html>
